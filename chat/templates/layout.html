@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{% block title %}Django Chat App{% endblock %}</title>
+    <title>{% block title %}Gothic AI Chat{% endblock %}</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
     <style>
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
+        font-family: 'Crimson Text', serif;
+        background-color: #121212;
+        color: #c8c8c8;
+        background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
       }
       .header {
-        background-color: #2c3e50;
-        color: white;
+        background-color: #1a1a1a;
+        color: #e63946;
         padding: 1rem;
         text-align: center;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        font-family: 'UnifrakturMaguntia', cursive;
       }
       .container {
         max-width: 800px;
         margin: 2rem auto;
-        padding: 0 1rem;
+        padding: 1rem;
+        background-color: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      }
+      h1 {
+        margin: 0;
+        font-size: 2.5rem;
       }
     </style>
     {% block extra_head %}
@@ -26,7 +39,7 @@
   </head>
   <body>
     <header class="header">
-      <h1>Django AI Chat</h1>
+      <h1>Gothic AI Chat</h1>
     </header>
     <div class="container">
       {% block content %}
