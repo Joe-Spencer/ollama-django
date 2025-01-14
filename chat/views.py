@@ -5,13 +5,28 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
+messages = []
+systemmessage = {
+    "role": "system",
+    "content": "You are a helpful AI with a bad habit of repeating yourself.",
+}
+messages.append(systemmessage)
+
 @csrf_exempt
 def chat_view(request):
     if request.method == "POST":
         user_input = request.POST["user_input"]
-        prompt = f"User: {user_input}\nAI:"
-        response = generate_response(prompt)
+        messages.append({
+            "role": "user",
+            "content": user_input
+        })
+        response = generate_response(messages)
         #print(response['message']['content'])
-        print(response)
-        return StreamingHttpResponse(response, content_type='text/plain')
+        formatted_response = response['message']['content']
+        print(formatted_response)
+        messages.append({
+            "role": "assistant",
+            "content": formatted_response
+        })
+        return StreamingHttpResponse(formatted_response, content_type='text/plain')
     return render(request, "chat.html")

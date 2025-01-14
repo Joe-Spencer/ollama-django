@@ -1,44 +1,71 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Django Chat App</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("#chat-form").submit(function (event) {
-          event.preventDefault();
-          var userInput = $("#user-input").val();
-          $("#user-input").val("");
-          $("#chat-history").append(
-            "<p><strong>User:</strong></p><p>" + userInput + "</p>"
-          );
-          var aiResponseElement = $("<p>");
-          $("#chat-history").append($("<strong>").text("AI:"));
-          $("#chat-history").append(aiResponseElement);
-          $.ajax({
-            type: "POST",
-            url: "/chat/",
-            data: { user_input: userInput },
-            xhrFields: {
-              onprogress: function (xhr) {
-                var response = xhr.target.responseText;
-                console.log(xhr);
-                console.log(response);
-                aiResponseElement.html(function (i, oldHtml) {
-                  return response;
-                });
-              },
-            },
-          });
-        });
+{% extends "layout.html" %}
+
+{% block extra_head %}
+<style>
+  #chat-history {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 400px;
+    overflow-y: auto;
+  }
+  #chat-form {
+    display: flex;
+    gap: 1rem;
+  }
+  #user-input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  button {
+    padding: 0.5rem 1rem;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #34495e;
+  }
+</style>
+<script>
+  $(document).ready(function () {
+    $("#chat-form").submit(function (event) {
+      event.preventDefault();
+      var userInput = $("#user-input").val();
+      $("#user-input").val("");
+      $("#chat-history").append(
+        "<p><strong>User:</strong></p><p>" + userInput + "</p>"
+      );
+      var aiResponseElement = $("<p>");
+      $("#chat-history").append($("<strong>").text("AI:"));
+      $("#chat-history").append(aiResponseElement);
+      $.ajax({
+        type: "POST",
+        url: "/chat/",
+        data: { user_input: userInput },
+        xhrFields: {
+          onprogress: function (xhr) {
+            var response = xhr.target.responseText;
+            aiResponseElement.html(function (i, oldHtml) {
+              return response;
+            });
+          },
+        },
       });
-    </script>
-  </head>
-  <body>
-    <div id="chat-history"></div>
-    <form id="chat-form">
-      <input type="text" id="user-input" name="user_input" required />
-      <button type="submit">Send</button>
-    </form>
-  </body>
-</html>
+    });
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="chat-history"></div>
+<form id="chat-form">
+  <input type="text" id="user-input" name="user_input" placeholder="Type your message..." required />
+  <button type="submit">Send</button>
+</form>
+{% endblock %}

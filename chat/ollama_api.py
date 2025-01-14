@@ -1,11 +1,9 @@
 import ollama
 
-def generate_response(prompt):
-    stream = ollama.chat(
+def generate_response(messages):
+    response = ollama.chat(
         model='llama3',
-        messages=[{'role': 'user', 'content': prompt}],
-        stream=True,
+        messages=messages,
+        stream=False,
     )
-    for chunk in stream:
-      
-        yield chunk['message']['content']
+    return response
