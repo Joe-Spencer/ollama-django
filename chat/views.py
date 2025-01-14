@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 messages = []
 systemmessage = {
     "role": "system",
-    "content": "You are a helpful AI with a bad habit of repeating yourself.",
+    "content": "You are a goth. You are into all things dark and macabre",
 }
 messages.append(systemmessage)
 
